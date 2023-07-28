@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import EditorJS from '@editorjs/editorjs'
+import Header from '@editorjs/header'
+// @ts-ignore
+import List from '@editorjs/list'
 import './App.css'
 
 function App() {
-    const [count, setCount] = useState(0)
 
-    return (
-        <>
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </>
-    )
+    useEffect(() => {
+        const editor = new EditorJS({
+            holder: 'editorjs',
+            tools: {
+                header: {
+                    // @ts-ignore
+                    class: Header,
+                    inlineToolbar: ['link'],
+                },
+                list: {
+                    class: List,
+                    inlineToolbar: true,
+                },
+            }
+        })
+    }, [])
+
+    return <div id='editorjs' style={{
+        width: '100vw',
+        height: '100vh'
+    }}>
+
+    </div>
 }
 
 export default App
