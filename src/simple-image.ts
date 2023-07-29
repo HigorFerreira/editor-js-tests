@@ -1,4 +1,9 @@
 export default class SimpleImage {
+    private data: any;
+
+    constructor({data}: { data: any }){
+        this.data = data
+    }
 
     static get toolbox(){
         return {
@@ -8,7 +13,9 @@ export default class SimpleImage {
     }
 
     render(){
-        return document.createElement("input")
+        const input = document.createElement("input")
+        input.value = this.data && this.data.url ? this.data.url : ''
+        return input
     }
     save(blockContent: HTMLInputElement){
         return {
