@@ -28,9 +28,18 @@ export default class SimpleImage {
 
         return wrapper
     }
+
     save(blockContent: HTMLInputElement){
         return {
             url: blockContent.value
         }
+    }
+
+    validate(savedData: any){
+        if(!savedData.url.trim()){
+            return false;
+        }
+
+        return true;
     }
 }
