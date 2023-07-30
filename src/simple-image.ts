@@ -1,8 +1,11 @@
 export default class SimpleImage {
     private data: any;
+    private wrapper: HTMLDivElement
 
     constructor({data}: { data: any }){
         this.data = data
+        // @ts-ignore
+        this.wrapper = undefined
     }
 
     static get toolbox(){
@@ -12,8 +15,20 @@ export default class SimpleImage {
         }
     }
 
+    _createImage(url: string){
+        const image = document.createElement('img');
+        const caption = document.createElement('input');
+
+        image.src = url;
+        caption.placeholder = 'Caption...';
+
+        this.wrapper.innerHTML = '';
+        this.wrapper.appendChild(image);
+        this.wrapper.appendChild(caption);
+    }
+
     render(){
-        const wrapper = document.createElement("div")
+        this.wrapper = document.createElement("div")
         const input = document.createElement("input")
 
         input.placeholder = 'Paste an image URL'
@@ -21,17 +36,26 @@ export default class SimpleImage {
 
         // input.style
 
-        wrapper.classList.add("simple-image")
+        this.wrapper.classList.add("simple-image")
         
-        wrapper.appendChild(input)
+        this.wrapper.appendChild(input)
         
+        input.addEventListener('paste', evt => {
+            this._createImage(evt.clipboardData?.getData('text') || "")
+        })
 
-        return wrapper
+        return this.wrapper
     }
 
-    save(blockContent: HTMLInputElement){
+    save(blockContent: HTMLElement){
+        const image = blockContent.querySelector('img');
+        const caption = blockContent.querySelector('input');
+
         return {
-            url: blockContent.value
+            // @ts-ignore
+            url: image.src,
+            // @ts-ignore
+            caption: caption.value
         }
     }
 

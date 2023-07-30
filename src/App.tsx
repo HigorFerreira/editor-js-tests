@@ -32,8 +32,8 @@ function App() {
                     console.log("Editor is working")
                 },
                 onChange: (api, event) => {
-                    console.log("EDITOR API", api)
-                    console.log("EDITOR EVENT", event)
+                    // console.log("EDITOR API", api)
+                    // console.log("EDITOR EVENT", event)
                 },
                 data: {
                     time: 1552744582955,
@@ -77,6 +77,11 @@ function App() {
             border-radius: 3px;
             outline: none;
             font-size: 14px;
+        }
+
+        .simple-image img {
+            max-width: 100%;
+            margin-bottom: 15px;
         }
         `}</style>
         <div
