@@ -13,9 +13,20 @@ export default class SimpleImage {
     }
 
     render(){
+        const wrapper = document.createElement("div")
         const input = document.createElement("input")
+
+        input.placeholder = 'Paste an image URL'
         input.value = this.data && this.data.url ? this.data.url : ''
-        return input
+
+        // input.style
+
+        wrapper.classList.add("simple-image")
+        
+        wrapper.appendChild(input)
+        
+
+        return wrapper
     }
     save(blockContent: HTMLInputElement){
         return {

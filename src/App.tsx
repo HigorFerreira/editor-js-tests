@@ -65,6 +65,20 @@ function App() {
         justifyContent: 'center',
         alignItems: 'center'
     }}>
+        <style>{`
+        .simple-image {
+            padding: 20px 0;
+        }
+        
+        .simple-image input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e4e4e4;
+            border-radius: 3px;
+            outline: none;
+            font-size: 14px;
+        }
+        `}</style>
         <div
             id='editorjs'
             style={{
