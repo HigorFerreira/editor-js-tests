@@ -15,12 +15,13 @@ export default class SimpleImage {
         }
     }
 
-    _createImage(url: string){
+    _createImage(url: string, captionText: string = ""){
         const image = document.createElement('img');
         const caption = document.createElement('input');
 
         image.src = url;
         caption.placeholder = 'Caption...';
+        caption.value = captionText
 
         this.wrapper.innerHTML = '';
         this.wrapper.appendChild(image);
@@ -29,14 +30,17 @@ export default class SimpleImage {
 
     render(){
         this.wrapper = document.createElement("div")
+        this.wrapper.classList.add("simple-image")
+
+        if(this.data && this.data.url){
+            this._createImage(this.data.url, this.data.caption)
+            return this.wrapper
+        }
+
         const input = document.createElement("input")
 
         input.placeholder = 'Paste an image URL'
         input.value = this.data && this.data.url ? this.data.url : ''
-
-        // input.style
-
-        this.wrapper.classList.add("simple-image")
         
         this.wrapper.appendChild(input)
         
