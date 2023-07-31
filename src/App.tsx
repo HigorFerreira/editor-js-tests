@@ -15,7 +15,11 @@ function App() {
             editorRef.current = new EditorJS({
                 holder: 'editorjs',
                 tools: {
-                    image: SimpleImage,
+                    image: {
+                        // @ts-ignore
+                        class: SimpleImage,
+                        inlineToolbar: ['link'],
+                    },
                     header: {
                         // @ts-ignore
                         class: Header,
@@ -38,7 +42,13 @@ function App() {
                 data: {
                     time: 1552744582955,
                     blocks: [
-                      
+                      {
+                        type: "image",
+                        data: {
+                          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiRGevxJ4_L5OOc7eAyW3V_V79p7RW_JS8xw&usqp=CAU",
+                          caption: "Delícia da boa"
+                        }
+                      }
                     ],
                     version: "2.11.10"
                 },
@@ -72,6 +82,10 @@ function App() {
             border-radius: 3px;
             outline: none;
             font-size: 14px;
+        }
+
+        .simple-image [contenteditable] {
+            // styles
         }
 
         .simple-image img {
