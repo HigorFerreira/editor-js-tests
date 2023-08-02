@@ -5,11 +5,16 @@ import SimpleImage from './simple-image'
 import Chart from './chart'
 // @ts-ignore
 import List from '@editorjs/list'
+import Tiptap from './Tiptap'
 import './App.css'
 
 function App() {
 
     const editorRef = useRef<EditorJS | null>(null);
+
+    return <div style={{ width: '100%', margin: '15mm 20mm 15mm 70mm' }}>
+        <Tiptap />
+    </div>
 
     useEffect(() => {
         if(!editorRef.current){
