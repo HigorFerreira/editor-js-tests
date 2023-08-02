@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import EditorJS from '@editorjs/editorjs'
 import Header from '@editorjs/header'
 import SimpleImage from './simple-image'
+import Chart from './chart'
 // @ts-ignore
 import List from '@editorjs/list'
 import './App.css'
@@ -15,6 +16,8 @@ function App() {
             editorRef.current = new EditorJS({
                 holder: 'editorjs',
                 tools: {
+                    // @ts-ignore
+                    chart: Chart,
                     image: {
                         // @ts-ignore
                         class: SimpleImage,
@@ -42,13 +45,6 @@ function App() {
                 data: {
                     time: 1552744582955,
                     blocks: [
-                      {
-                        type: "image",
-                        data: {
-                          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiRGevxJ4_L5OOc7eAyW3V_V79p7RW_JS8xw&usqp=CAU",
-                          caption: "Delícia da boa"
-                        }
-                      }
                     ],
                     version: "2.11.10"
                 },
