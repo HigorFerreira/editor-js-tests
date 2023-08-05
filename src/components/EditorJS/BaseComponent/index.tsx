@@ -32,7 +32,7 @@ export default class BaseComponent {
 
         const wrapper = document.createElement("div")
         Object.keys(defaultCss).forEach(key => {
-            console.log(key)
+            // console.log(key)
             // @ts-ignore
             wrapper.style[key] = defaultCss[key]
         })
