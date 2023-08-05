@@ -5,7 +5,8 @@ export default class Chart extends BaseComponent{
     constructor(){
         super({
             customCss: {
-                minHeight: '400px'
+                minHeight: '420px',
+                backgroundColor: '#07081d',
             }
         });
     }

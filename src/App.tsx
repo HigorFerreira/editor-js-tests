@@ -63,13 +63,7 @@ function App() {
         }
     }, [])
 
-    return <div style={{
-        display: 'flex',
-        width: '100vw',
-        height: '100vh',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }}>
+    return <div>
         <style>{`
         .simple-image {
             padding: 20px 0;
