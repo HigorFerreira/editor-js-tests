@@ -49,11 +49,11 @@ class BaseComponent {
         this.setId(this.generateUniqueId())
     }
 
-    getData(): any {
+    public getData(): any {
         return this.data
     }
 
-    getIdPrefix(): string{
+    protected getIdPrefix(): string{
         return 'EditorComponent-'
     }
 
@@ -61,7 +61,7 @@ class BaseComponent {
      * Generates an unique ID for the component to put in wrapper that react uses
      * @returns The id of the component
      */
-    generateUniqueId(): string {
+    protected generateUniqueId(): string {
         // @ts-ignore
         return this.getIdPrefix() + Date.now().toString(16) + '-' + (parseInt(Math.random()*10000)).toString()
     }
@@ -70,13 +70,13 @@ class BaseComponent {
      * Set the id of component container
      * @id The id of container
      */
-    setId(id: string){
+    private setId(id: string){
         // @ts-ignore
         this.id = id
         this.wrapper.id = id
     }
 
-    getId(): string{
+    public getId(): string{
         return this.id
     }
 
@@ -85,7 +85,7 @@ class BaseComponent {
      * @param x Counter number
      * @returns 
      */
-    calculateTimeout(x: number){
+    private calculateTimeout(x: number){
         if(x > 9) return 700
         if(x < 1) return 10
         return -0.0001333*x*x*x*x*x*x*x*x*x*x + 0.003164*x*x*x*x*x*x*x*x*x - 0.01442*x*x*x*x*x*x*x*x - 0.1758*x*x*x*x*x*x*x + 1.259*x*x*x*x*x*x + 10.71*x*x*x*x*x - 155*x*x*x*x + 740.3*x*x*x - 1721*x*x + 1925*x - 790.7
@@ -99,13 +99,13 @@ class BaseComponent {
         }
     }
 
-    render(){
+    private render(){
         this.renderReactComponent()
 
         return this.wrapper
     }
 
-    getReactComponent(): React.ReactNode{
+    protected getReactComponent(): React.ReactNode{
         return <div style={{
             padding: 12,
             display: "flex",
@@ -118,7 +118,7 @@ class BaseComponent {
         </div>
     }
 
-    renderReactComponent(){
+    private renderReactComponent(){
         if(this.id === "") throw new Error("ID does not set");
         console.log("RENDER COMPONENT", this.counter)
         try{
