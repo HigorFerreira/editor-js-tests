@@ -1,9 +1,22 @@
+import type EditorJS from '@editorjs/editorjs'
+
 export default class SimpleImage {
+    private api: EditorJS;
     private data: any;
     private wrapper: HTMLDivElement
     private settings: Array<{ name: string, icon: string }>
 
-    constructor({data}: { data: any }){
+    constructor(
+        {
+            data,
+            api,
+        }: {
+            data: any
+            api: EditorJS
+        }
+    ){
+        this.api = api;
+        console.log("API", this.api);
         this.data = {
             url: data.url || '',
             caption: data.caption || '',
@@ -104,14 +117,14 @@ export default class SimpleImage {
         this.settings.forEach( tune => {
             let button = document.createElement('div');
 
-            button.classList.add('cdx-settings-button');
-            button.classList.toggle('cdx-settings-button--active', !!this.data.settings[tune.name]);
+            button.classList.add(this.api.styles.settingsButton);
+            button.classList.toggle(this.api.styles.settingsButtonActive, this.data.settings[tune.name]);
             button.innerHTML = tune.icon;
             wrapper.appendChild(button);
 
             button.addEventListener('click', () => {
                 this._toogleTune(tune.name);
-                button.classList.toggle('cdx-settings-button--active')
+                button.classList.toggle(this.api.styles.settingsButtonActive);
             })
         });
 
@@ -134,6 +147,10 @@ export default class SimpleImage {
     private _acceptTuneView(){
         this.settings.forEach(tune => {
             this.wrapper.classList.toggle(tune.name, !!this.data.settings[tune.name]);
+
+            if(tune.name === "stretched"){
+                this.api.blocks.stretchBlock(this.api.blocks.getCurrentBlockIndex(), !!this.data.settings.stretched)
+            }
         })
     }
 }
