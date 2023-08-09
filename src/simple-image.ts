@@ -160,4 +160,41 @@ export default class SimpleImage {
             }
         })
     }
+
+    static get pasteConfig(){
+        return {
+            tags: [ 'IMG' ],
+            files: {
+                mimeTypes: ['image/*'],
+                extensions: ['gif', 'jpg', 'png']
+            },
+            patterns: {
+                image: /https?:\/\/\S+\.(gif|jpe?g|tiff|png|svg)$/i
+            }
+        }
+    }
+
+    onPaste(event: any){
+        switch(event.type){
+            case 'tag':
+                const imgTag = event.detail.data;
+                this._createImage(imgTag.src);
+                break;
+            case 'file':
+                const file = event.detail.file;
+                const reader = new FileReader();
+
+                reader.onload = (loadEvent: any) => {
+                    this._createImage(loadEvent.target.result);
+                }
+
+                reader.readAsDataURL(file);
+                break;
+            case 'pattern':
+                const src = event.detail.data;
+        
+                this._createImage(src);
+                break;
+        }
+    }
 }
