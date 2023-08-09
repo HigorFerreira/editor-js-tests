@@ -7,20 +7,25 @@ export default class SimpleImage {
     private data: any;
     private wrapper: HTMLDivElement
     private settings: Array<{ name: string, icon: string }>
+    private config: { [k: string]: unknown }
+    
 
     constructor(
         {
             data,
             api,
             block,
+            config
         }: {
             data: any
             api: EditorJS
             block: BlockAPI
+            config: { [k: string]: unknown }
         }
     ){
         this.api = api;
         this.block = block;
+        this.config = config;
         console.log("API", this.api);
         console.log("BLOCK API", this.block);
         this.data = {
@@ -85,7 +90,7 @@ export default class SimpleImage {
 
         const input = document.createElement("input")
 
-        input.placeholder = 'Paste an image URL'
+        input.placeholder = this.config.placeholder as string || 'Paste an image URL...';
         input.value = this.data && this.data.url ? this.data.url : ''
         
         this.wrapper.appendChild(input)
@@ -105,7 +110,13 @@ export default class SimpleImage {
             // @ts-ignore
             url: image.src,
             // @ts-ignore
-            caption: caption.value
+            caption: this.api.sanitizer.clean(caption?.innerHTML || '', {
+                b: true,
+                a: {
+                    href: true,
+                },
+                i: true
+            })
         });
     }
 

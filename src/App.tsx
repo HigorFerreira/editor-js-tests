@@ -26,6 +26,9 @@ function App() {
                         // @ts-ignore
                         class: SimpleImage,
                         inlineToolbar: ['link'],
+                        config: {
+                            placeholder: 'Paste image URL'
+                        }
                     },
                     header: {
                         // @ts-ignore
