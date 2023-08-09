@@ -1,7 +1,9 @@
 import type EditorJS from '@editorjs/editorjs'
+import type { BlockAPI } from '@editorjs/editorjs'
 
 export default class SimpleImage {
     private api: EditorJS;
+    private block: BlockAPI;
     private data: any;
     private wrapper: HTMLDivElement
     private settings: Array<{ name: string, icon: string }>
@@ -10,13 +12,17 @@ export default class SimpleImage {
         {
             data,
             api,
+            block,
         }: {
             data: any
             api: EditorJS
+            block: BlockAPI
         }
     ){
         this.api = api;
+        this.block = block;
         console.log("API", this.api);
+        console.log("BLOCK API", this.block);
         this.data = {
             url: data.url || '',
             caption: data.caption || '',
@@ -149,7 +155,8 @@ export default class SimpleImage {
             this.wrapper.classList.toggle(tune.name, !!this.data.settings[tune.name]);
 
             if(tune.name === "stretched"){
-                this.api.blocks.stretchBlock(this.api.blocks.getCurrentBlockIndex(), !!this.data.settings.stretched)
+                // this.api.blocks.stretchBlock(this.api.blocks.getCurrentBlockIndex(), !!this.data.settings.stretched);
+                this.block.stretched = !!this.data.settings.stretched;
             }
         })
     }
