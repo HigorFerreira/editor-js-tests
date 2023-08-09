@@ -86,7 +86,32 @@ function App() {
             max-width: 100%;
             margin-bottom: 15px;
         }
+
+        .simple-image.withBorder img {
+            border: 1px solid #e8e8eb;
+        }
+        
+        .simple-image.withBackground {
+            background: #eff2f5;
+            padding: 10px;
+        }
+        
+        .simple-image.withBackground img {
+            display: block;
+            max-width: 60%;
+            margin: 0 auto 15px;
+        }
+
+        /*
+        .simple-image.stretched img {
+            width: 100%;
+            max-width: 100%;
+        }
+        */
         `}</style>
+        <button onClick={async () => {
+            console.log(await editorRef.current?.save())
+        }}>Save</button>
         <div
             id='editorjs'
             style={{

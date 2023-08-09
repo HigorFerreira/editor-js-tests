@@ -9,7 +9,7 @@ import "@finos/perspective-viewer/dist/css/solarized.css";
 import { HTMLPerspectiveViewerElement } from "@finos/perspective-viewer/dist/esm/extensions";
 // import { PerspectiveViewerProps } from "./types";
 
-import { RingLoader, PulseLoader, RiseLoader, CircleLoader, ClipLoader, PropagateLoader } from 'react-spinners'
+import { ClipLoader } from 'react-spinners'
 
 export default function(){
     const perspectiveRef = useRef<HTMLPerspectiveViewerElement>(null);
