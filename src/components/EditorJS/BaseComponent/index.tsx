@@ -5,9 +5,9 @@ export default class BaseComponent {
     private readonly id: string;
     private data: any;
     private wrapper: HTMLDivElement;
+    private settingsWrapper: HTMLElement;
     
-    private counter: number = 1;
-    private timeout: number;
+    private readonly timeouts = [ 2, 5, 10, 15, 20, 50, 100, 150, 200, 250 ]
 
     constructor(
         {
@@ -19,8 +19,8 @@ export default class BaseComponent {
         }
     ){
 
-        this.data = data
-        this.id = ""
+        this.data = data;
+        this.id = "";
 
         const defaultCss: CSSProperties = {
             position: 'relative',
@@ -30,16 +30,17 @@ export default class BaseComponent {
             ...(customCss || {}),
         }
 
-        const wrapper = document.createElement("div")
+        const wrapper = document.createElement("div");
         Object.keys(defaultCss).forEach(key => {
             // console.log(key)
             // @ts-ignore
-            wrapper.style[key] = defaultCss[key]
+            wrapper.style[key] = defaultCss[key];
         })
-        this.wrapper = wrapper
+        this.wrapper = wrapper;
 
-        this.timeout = this.calculateTimeout(this.counter)
-        this.setId(this.generateUniqueId())
+        this.settingsWrapper = document.createElement("div");
+
+        this.setId(this.generateUniqueId());
     }
 
     public getData(): any {
@@ -65,23 +66,13 @@ export default class BaseComponent {
      */
     private setId(id: string){
         // @ts-ignore
-        this.id = id
-        this.wrapper.id = id
+        this.id = id;
+        this.wrapper.id = id;
+        this.settingsWrapper.id = `Settings-${id}`;
     }
 
     public getId(): string{
-        return this.id
-    }
-
-    /**
-     * 
-     * @param x Counter number
-     * @returns 
-     */
-    private calculateTimeout(x: number){
-        if(x > 9) return 700
-        if(x < 1) return 10
-        return -0.0001333*x*x*x*x*x*x*x*x*x*x + 0.003164*x*x*x*x*x*x*x*x*x - 0.01442*x*x*x*x*x*x*x*x - 0.1758*x*x*x*x*x*x*x + 1.259*x*x*x*x*x*x + 10.71*x*x*x*x*x - 155*x*x*x*x + 740.3*x*x*x - 1721*x*x + 1925*x - 790.7
+        return this.id;
     }
 
     static get toolbox(){
@@ -93,9 +84,15 @@ export default class BaseComponent {
     }
 
     private render(){
-        this.renderReactComponent()
+        this.renderReactComponent();
 
-        return this.wrapper
+        return this.wrapper;
+    }
+
+    private renderSettings(){
+        this.rederSettingsReactComponent();
+
+        return this.settingsWrapper;
     }
 
     protected getReactComponent(): React.ReactNode{
@@ -111,21 +108,52 @@ export default class BaseComponent {
         </div>
     }
 
-    private renderReactComponent(){
+    protected getSettingsReactComponent(): React.ReactNode{
+        return <></>
+    }
+
+    private renderReactComponent(idx = 0){
         if(this.id === "") throw new Error("ID does not set");
+        
+        const timeout =
+            idx === this.timeouts.length
+                ? this.timeouts[this.timeouts.length - 1]
+                : this.timeouts[idx];
+
+        console.log("Redering try:", idx+1);
         try{
             setTimeout(() => {
                 ReactDOM.createRoot(
                     document.getElementById(this.getId())!
                 ).render(this.getReactComponent());
-            }, this.timeout);
+            }, timeout);
         }
         catch(error){
             console.error(error)
-            if(this.counter < 8){
-                this.calculateTimeout(this.counter++);
-                this.renderReactComponent();
-            }
+            if(idx > 10) throw new Error("Failed to render component after 10 tries");
+            this.renderReactComponent(idx + 1);
+        }
+    }
+
+    private rederSettingsReactComponent(idx = 0){
+        if(this.id === "") throw new Error("ID does not set");
+
+        const timeout =
+            idx === this.timeouts.length
+                ? this.timeouts[this.timeouts.length - 1]
+                : this.timeouts[idx];
+
+        try{
+            setTimeout(() => {
+                ReactDOM.createRoot(
+                    document.getElementById(this.getId())!
+                ).render(this.getSettingsReactComponent());
+            }, timeout);
+        }
+        catch(error){
+            console.error(error)
+            if(idx > 10) throw new Error("Failed to render component after 10 tries");
+            this.renderReactComponent(idx + 1);
         }
     }
 }
