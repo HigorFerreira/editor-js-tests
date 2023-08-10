@@ -1,7 +1,13 @@
 import React, { CSSProperties } from "react";
 import ReactDOM from 'react-dom/client';
 
+import type EditorJS from '@editorjs/editorjs'
+import type { BlockAPI } from '@editorjs/editorjs'
+
 export default class BaseComponent {
+    public api: EditorJS;
+    public block: BlockAPI;
+    public config: { [k: string]: unknown };
     private readonly id: string;
     private data: any;
     private wrapper: HTMLDivElement;
@@ -13,11 +19,20 @@ export default class BaseComponent {
         {
             data,
             customCss,
+            api,
+            block,
+            config,
         }: {
             data?: any
-            customCss?: CSSProperties
+            customCss?: CSSProperties,
+            api: EditorJS
+            block: BlockAPI,
+            config: { [k: string]: unknown }
         }
     ){
+        this.api = api;
+        this.block = block;
+        this.config = config;
 
         this.data = data;
         this.id = "";
@@ -124,7 +139,7 @@ export default class BaseComponent {
         try{
             setTimeout(() => {
                 ReactDOM.createRoot(
-                    document.getElementById(this.getId())!
+                    document.getElementById(this.wrapper.id)!
                 ).render(this.getReactComponent());
             }, timeout);
         }
@@ -146,7 +161,7 @@ export default class BaseComponent {
         try{
             setTimeout(() => {
                 ReactDOM.createRoot(
-                    document.getElementById(this.getId())!
+                    document.getElementById(this.settingsWrapper.id)!
                 ).render(this.getSettingsReactComponent());
             }, timeout);
         }
