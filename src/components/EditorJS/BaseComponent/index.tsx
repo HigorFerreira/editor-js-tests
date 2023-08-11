@@ -58,6 +58,20 @@ export default class BaseComponent {
         this.setId(this.generateUniqueId());
     }
 
+    public setWrapperClass(_class: string, wrapper: "wrapper" | "settings" = "wrapper"){
+        switch(wrapper){
+            case "wrapper":
+                this.wrapper.classList.add(_class);
+                break;
+            case "settings":
+                this.settingsWrapper.classList.add(_class);
+                break;
+            default:
+                this.wrapper.classList.add(_class);
+                break;
+        }
+    }
+
     public getData(): any {
         return this.data
     }
