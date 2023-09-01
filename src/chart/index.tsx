@@ -1,3 +1,4 @@
+"use client";
 import BaseComponent from "../components/EditorJS/BaseComponent";
 import Perspective from "./Perspective";
 

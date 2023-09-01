@@ -1,3 +1,4 @@
+"use client";
 import React, { ChangeEvent, PropsWithChildren, useEffect, useRef, useState } from "react";
 
 import perspective from "@finos/perspective";

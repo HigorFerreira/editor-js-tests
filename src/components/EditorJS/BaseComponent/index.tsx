@@ -1,3 +1,4 @@
+"use client";
 import React, { CSSProperties } from "react";
 import ReactDOM from 'react-dom/client';
 
