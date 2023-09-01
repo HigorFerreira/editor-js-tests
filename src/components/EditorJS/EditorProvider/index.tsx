@@ -1,14 +1,34 @@
 "use client";
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, PropsWithChildren } from 'react';
 import EditorJS, { EditorConfig } from '@editorjs/editorjs';
 
-export default function EditorProvider(config?: EditorConfig) {
+export default function EditorProvider(
+    {
+        config,
+        onReady,
+    }: PropsWithChildren<{
+        config?: Omit<EditorConfig, "holder" | "holderId">
+        onReady?: (
+            params: {
+                editor: EditorJS
+            }
+        ) => void
+    }>
+) {
 
     const editorRef = useRef<EditorJS | null>(null);
+    const editableAreaRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        if(!editorRef.current){
-            editorRef.current = new EditorJS(config)
+        if(!editorRef.current && editableAreaRef.current){
+            editorRef.current = new EditorJS({
+                ...(config || {}),
+                holder: editableAreaRef.current
+            });
+
+            onReady && onReady({
+                editor: editorRef.current
+            })
         }
         
         return () => {
@@ -19,18 +39,7 @@ export default function EditorProvider(config?: EditorConfig) {
         }
     }, [])
 
-    return <div>
-        <button onClick={async () => {
-            console.log(await editorRef.current?.save())
-        }}>Save</button>
-        <div
-            id='editorjs'
-            // style={{
-            //     width: '21cm',
-            //     border: '1px solid black',
-            //     padding: '25px',
-            //     transform: 'scale(1)'
-            // }}
-        />
-    </div>
+    return <>
+        <div ref={ editableAreaRef } />
+    </>
 }

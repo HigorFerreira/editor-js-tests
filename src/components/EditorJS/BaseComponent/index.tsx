@@ -142,6 +142,10 @@ export default class BaseComponent {
         return <></>
     }
 
+    protected save(){
+        return "Implement saving function"
+    }
+
     private renderReactComponent(idx = 0){
         if(this.id === "") throw new Error("ID does not set");
         

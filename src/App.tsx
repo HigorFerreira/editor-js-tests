@@ -6,67 +6,16 @@ import SimpleImage from './simple-image'
 import Chart from './chart'
 // @ts-ignore
 import List from '@editorjs/list'
-import Tiptap from './Tiptap'
-import './App.css'
-
-const ReactEditorJS = createReactEditorJS()
+import EditorProvider from './components/EditorJS/EditorProvider'
 
 function App() {
 
-    const editorRef = useRef<EditorJS | null>(null);
-
+    const [ editors, setEditors ] = useState<EditorJS[]>([]);
     useEffect(() => {
-        if(!editorRef.current){
-            editorRef.current = new EditorJS({
-                holder: 'editorjs',
-                tools: {
-                    // @ts-ignore
-                    chart: Chart,
-                    image: {
-                        // @ts-ignore
-                        class: SimpleImage,
-                        inlineToolbar: ['link'],
-                        config: {
-                            placeholder: 'Paste image URL'
-                        }
-                    },
-                    header: {
-                        // @ts-ignore
-                        class: Header,
-                        inlineToolbar: ['link'],
-                    },
-                    list: {
-                        class: List,
-                        inlineToolbar: true,
-                    },
-                },
-                autofocus: true,
-                // placeholder: 'Let\'s write something',
-                onReady: () => {
-                    console.log("Editor is working")
-                },
-                onChange: (api, event) => {
-                    // console.log("EDITOR API", api)
-                    // console.log("EDITOR EVENT", event)
-                },
-                data: {
-                    time: 1552744582955,
-                    blocks: [
-                    ],
-                    version: "2.11.10"
-                },
-            })
-        }
-        
-        return () => {
-            if(editorRef.current && editorRef.current.destroy){
-                editorRef.current?.destroy();
-                editorRef.current = null;
-            }
-        }
-    }, [])
+        console.log("EDITORS", editors);
+    }, [ editors ]);
 
-    return <div>
+    return <>
         <style>{`
         .simple-image {
             padding: 20px 0;
@@ -111,20 +60,57 @@ function App() {
             max-width: 100%;
         }
         */
+        .codex-editor__redactor{
+            padding-bottom: 0 !important;
+        }
         `}</style>
         <button onClick={async () => {
-            console.log(await editorRef.current?.save())
+            console.log(await editors[0]?.save());
         }}>Save</button>
-        <div
-            id='editorjs'
-            style={{
-                width: '21cm',
-                border: '1px solid black',
-                padding: '25px',
-                transform: 'scale(1)'
+        <EditorProvider
+            onReady={({ editor }) => {
+                setEditors(prev => [ ...prev, editor ])
+            }}
+            config={{
+                tools: {
+                    // @ts-ignore
+                    chart: Chart,
+                    image: {
+                        // @ts-ignore
+                        class: SimpleImage,
+                        inlineToolbar: ['link'],
+                        config: {
+                            placeholder: 'Paste image URL'
+                        }
+                    },
+                    header: {
+                        // @ts-ignore
+                        class: Header,
+                        inlineToolbar: ['link'],
+                    },
+                    list: {
+                        class: List,
+                        inlineToolbar: true,
+                    },
+                },
+                autofocus: true,
+                // placeholder: 'Let\'s write something',
+                onReady: () => {
+                    console.log("Editor is working")
+                },
+                onChange: (api, event) => {
+                    // console.log("EDITOR API", api)
+                    // console.log("EDITOR EVENT", event)
+                },
+                data: {
+                    time: 1552744582955,
+                    blocks: [
+                    ],
+                    version: "2.11.10"
+                },
             }}
         />
-    </div>
+    </>
 }
 
 export default App
