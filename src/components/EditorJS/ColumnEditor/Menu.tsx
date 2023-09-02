@@ -17,6 +17,7 @@ export default function Menu(
     useEffect(() => {
         // @ts-ignore
         context.publicStates?.mainComponentSetColumns(columns);
+        context.columns = columns;
     }, [ columns ]);
 
     return <>

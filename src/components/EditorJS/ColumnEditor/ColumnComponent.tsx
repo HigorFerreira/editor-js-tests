@@ -29,29 +29,34 @@ export default function ColumnComponent(
         });
     }, [ columns ]);
 
-    return <div style={{
-        display: 'grid',
-        gridTemplateColumns: `repeat(${columns}, 1fr)`,
-        gap: 5,
-        border: '1px solid black',
-        padding: 2,
-    }}>
+    return <>
         <style>{`
-        .codex-editor--narrow .codex-editor__redactor{
-            margin: 0;
-        }
-        `}</style>
-        {
-            arr.map((_, i) => {
-                return <Editor
-                    key={i}
-                    context={context}
-                    editorConfig={editorConfig}
-                    onReady={ ({ editor }) => {
+            .codex-editor--narrow .codex-editor__redactor{
+                margin: 0;
+            }
+            `}
+        </style>
+        <div style={{
+            position: 'relative',
+            display: 'grid',
+            gridTemplateColumns: `repeat(${columns}, 1fr)`,
+            gap: 5,
+            border: '1px solid black',
+            padding: 2,
+            zIndex: 0,
+        }}>
+            {
+                arr.map((_, i) => {
+                    return <Editor
+                        key={i}
+                        context={context}
+                        editorConfig={editorConfig}
+                        onReady={ ({}) => {
 
-                    } }
-                />
-            })
-        }
-    </div>
+                        } }
+                    />
+                })
+            }
+        </div>
+    </>
 }
