@@ -1,13 +1,31 @@
+import { type EditorConfig } from "@editorjs/editorjs";
 import { type ReactNode } from "react";
 import BaseComponent from "../BaseComponent";
 import ColumnComponent from "./ColumnComponent";
 import Menu from "./Menu";
+
 import type {
     PublicStates
 } from './types';
 
 
 export default class ColumnEditor extends BaseComponent {
+    private editorConfig: EditorConfig
+
+    // @ts-ignore
+    constructor(props, editorConfig: EditorConfig){
+        console.log(props, editorConfig);
+        super({
+            ...props,
+            customCss: {
+                minHeight: 'unset',
+                backgroundColor: 'unset'
+            }
+        });
+
+        this.editorConfig = editorConfig;
+    }
+
     public publicStates: PublicStates = {
         mainComponentSetColumns: null,
         settingsSetColumns: null,
@@ -24,6 +42,7 @@ export default class ColumnEditor extends BaseComponent {
     protected getReactComponent(): ReactNode {
         return <ColumnComponent
             context={this}
+            editorConfig={ this.editorConfig }
         />
     }
 

@@ -1,11 +1,15 @@
 import { type PropsWithChildren, useEffect, useState } from "react";
+import { type EditorConfig } from "@editorjs/editorjs";
+import Editor from "./Editor";
 import ColumnEditor from ".";
 
 export default function ColumnComponent(
     {
-        context
+        context,
+        editorConfig,
     }: PropsWithChildren<{
         context: ColumnEditor
+        editorConfig: Omit<EditorConfig, "holder" | "holderId">
     }>
 ){
     const [ columns, setColumns ] = useState(2);
@@ -28,16 +32,25 @@ export default function ColumnComponent(
     return <div style={{
         display: 'grid',
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
-        gap: 5
+        gap: 5,
+        border: '1px solid black',
+        padding: 2,
     }}>
+        <style>{`
+        .codex-editor--narrow .codex-editor__redactor{
+            margin: 0;
+        }
+        `}</style>
         {
             arr.map((_, i) => {
-                return <div key={i} style={{
-                    // width: '100%',
-                    // height: '100%',
-                }}>
-                    <h3>PUTS</h3>
-                </div>
+                return <Editor
+                    key={i}
+                    context={context}
+                    editorConfig={editorConfig}
+                    onReady={ ({ editor }) => {
+
+                    } }
+                />
             })
         }
     </div>
