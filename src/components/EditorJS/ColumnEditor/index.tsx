@@ -1,87 +1,11 @@
-import { Dispatch, PropsWithChildren, ReactNode, SetStateAction, useEffect, useState } from "react";
+import { type ReactNode } from "react";
 import BaseComponent from "../BaseComponent";
+import ColumnComponent from "./ColumnComponent";
+import Menu from "./Menu";
+import type {
+    PublicStates
+} from './types';
 
-function Menu(
-    {
-        context,
-    }: PropsWithChildren<{
-        context: ColumnEditor
-    }>
-){
-    const [ columns, setColumns ] = useState(2);
-
-    useEffect(() => {
-        context.publicStates.settingsSetColumns = setColumns;
-    }, []);
-
-    useEffect(() => {
-        // @ts-ignore
-        context.publicStates?.mainComponentSetColumns(columns);
-    }, [ columns ]);
-
-    return <>
-        <div style={{
-            margin: '0 5px',
-        }}>
-            <label htmlFor="">Colunas: </label>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-evenly',
-            }}>
-                {/* @ts-ignore */}
-                <input type="range" min={2} max={4} value={columns} onChange={ evt => setColumns(evt.target.value) } />
-                <div>{columns}</div>
-            </div>
-        </div>
-    </>
-}
-
-function ColumnComponent(
-    {
-        context
-    }: PropsWithChildren<{
-        context: ColumnEditor
-    }>
-){
-    const [ columns, setColumns ] = useState(2);
-    const [ arr, setArr ] = useState([ 0, 0 ]);
-
-    useEffect(() => {
-        context.publicStates.mainComponentSetColumns = setColumns;
-    }, []);
-
-    useEffect(() => {
-        setArr(() => {
-            let newArray = [];
-            for(let i = 0; i < columns; i++){
-                newArray.push(0);
-            }
-            return newArray;
-        });
-    }, [ columns ]);
-
-    return <div style={{
-        display: 'grid',
-        gridTemplateColumns: `repeat(${columns}, 1fr)`,
-        gap: 5
-    }}>
-        {
-            arr.map((_, i) => {
-                return <div key={i} style={{
-                    // width: '100%',
-                    // height: '100%',
-                }}>
-                    <h3>PUTS</h3>
-                </div>
-            })
-        }
-    </div>
-}
-
-type PublicStates = {
-    settingsSetColumns: Dispatch<SetStateAction<number>> | null
-    mainComponentSetColumns: Dispatch<SetStateAction<number>> | null
-}
 
 export default class ColumnEditor extends BaseComponent {
     public publicStates: PublicStates = {
