@@ -6,6 +6,7 @@ import SimpleImage from './simple-image'
 import Chart from './chart'
 // @ts-ignore
 import List from '@editorjs/list'
+import ColumnEditor from './components/EditorJS/ColumnEditor'
 import EditorProvider from './components/EditorJS/EditorProvider'
 
 function App() {
@@ -82,6 +83,10 @@ function App() {
                         config: {
                             placeholder: 'Paste image URL'
                         }
+                    },
+                    column: {
+                        // @ts-ignore
+                        class: ColumnEditor,
                     },
                     header: {
                         // @ts-ignore
