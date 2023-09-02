@@ -4,24 +4,19 @@ import BaseComponent from "../BaseComponent";
 function Menu(
     {
         context,
-        onReady
     }: PropsWithChildren<{
         context: ColumnEditor
-        onReady: (params: {
-            setCounter: Dispatch<SetStateAction<number>>
-        }) => void
     }>
 ){
-    const [ _, setCounter ] = useState(0);
-    const [ columns, setColumns ] = useState(context.columns);
+    const [ columns, setColumns ] = useState(2);
 
     useEffect(() => {
-        onReady({ setCounter });
+        context.publicStates.settingsSetColumns = setColumns;
     }, []);
 
     useEffect(() => {
-        context.columns = columns;
-        context.componentCounter && context.componentCounter(prev => prev + 1);
+        // @ts-ignore
+        context.publicStates?.mainComponentSetColumns(columns);
     }, [ columns ]);
 
     return <>
@@ -43,26 +38,17 @@ function Menu(
 
 function ColumnComponent(
     {
-        context,
-        onReady
+        context
     }: PropsWithChildren<{
         context: ColumnEditor
-        onReady: (params: {
-            setCounter: Dispatch<SetStateAction<number>>
-        }) => void
     }>
 ){
-    const [ counter, setCounter ] = useState(0);
-    const [ columns, setColumns ] = useState(context.columns);
+    const [ columns, setColumns ] = useState(2);
     const [ arr, setArr ] = useState([ 0, 0 ]);
 
     useEffect(() => {
-        onReady({ setCounter });
+        context.publicStates.mainComponentSetColumns = setColumns;
     }, []);
-
-    useEffect(() => {
-        setColumns(context.columns);
-    }, [ counter ]);
 
     useEffect(() => {
         setArr(() => {
@@ -92,10 +78,16 @@ function ColumnComponent(
     </div>
 }
 
+type PublicStates = {
+    settingsSetColumns: Dispatch<SetStateAction<number>> | null
+    mainComponentSetColumns: Dispatch<SetStateAction<number>> | null
+}
+
 export default class ColumnEditor extends BaseComponent {
-    public columns: number = 2;
-    public componentCounter: Dispatch<SetStateAction<number>> | null = null;
-    public settingsCounter: Dispatch<SetStateAction<number>> | null = null;
+    public publicStates: PublicStates = {
+        mainComponentSetColumns: null,
+        settingsSetColumns: null,
+    }
 
     static get toolbox(){
         return {
@@ -108,18 +100,12 @@ export default class ColumnEditor extends BaseComponent {
     protected getReactComponent(): ReactNode {
         return <ColumnComponent
             context={this}
-            onReady={ ({ setCounter }) => {
-                this.componentCounter = setCounter;
-            } }
         />
     }
 
     protected getSettingsReactComponent(): ReactNode {
         return <Menu
             context={this}
-            onReady={ ({ setCounter }) => {
-                this.settingsCounter = setCounter;
-            } }
         />
     }
 }
