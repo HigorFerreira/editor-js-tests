@@ -42,4 +42,13 @@
 */
 .codex-editor__redactor{
     padding-bottom: 0 !important;
+    margin: 0 !important;
+}
+
+.react-resizable-handle{
+    z-index: 100;
+}
+
+.ce-popover{
+    
 }
