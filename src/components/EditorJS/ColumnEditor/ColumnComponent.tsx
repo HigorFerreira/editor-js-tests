@@ -12,7 +12,7 @@ export default function ColumnComponent(
         editorConfig: Omit<EditorConfig, "holder" | "holderId">
     }>
 ){
-    const [ columns, setColumns ] = useState(2);
+    const [ columns, setColumns ] = useState(context.columns);
     const [ arr, setArr ] = useState([ 0, 0 ]);
 
     useEffect(() => {

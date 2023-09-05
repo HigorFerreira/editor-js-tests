@@ -8,7 +8,7 @@ export default function Menu(
         context: ColumnEditor
     }>
 ){
-    const [ columns, setColumns ] = useState(2);
+    const [ columns, setColumns ] = useState(context.columns);
 
     useEffect(() => {
         context.publicStates.settingsSetColumns = setColumns;
