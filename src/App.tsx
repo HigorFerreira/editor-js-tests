@@ -1,5 +1,5 @@
 import { createReactEditorJS } from 'react-editor-js'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, CSSProperties } from 'react'
 import EditorJS, { EditorConfig } from '@editorjs/editorjs'
 import Header from '@editorjs/header'
 import SimpleImage from './simple-image'
@@ -8,85 +8,35 @@ import Chart from './chart'
 import List from '@editorjs/list'
 import ColumnEditor from './components/EditorJS/ColumnEditor'
 import EditorProvider from './components/EditorJS/EditorProvider'
+import GridLayout, { type Layout } from 'react-grid-layout'
 
-const editorConfig: EditorConfig = {
-    tools: {
-        // @ts-ignore
-        chart: Chart,
-        image: {
-            // @ts-ignore
-            class: SimpleImage,
-            inlineToolbar: ['link'],
-            config: {
-                placeholder: 'Paste image URL'
-            }
-        },
-        // column: {
-        //     // @ts-ignore
-        //     class: ColumnEditor,
-        // },
-        header: {
-            // @ts-ignore
-            class: Header,
-            inlineToolbar: ['link'],
-        },
-        list: {
-            class: List,
-            inlineToolbar: true,
-        },
-    },
-    autofocus: true,
-    // placeholder: 'Let\'s write something',
-    onReady: () => {
-        console.log("Editor is working")
-    },
-    onChange: (api, event) => {
-        // console.log("EDITOR API", api)
-        // console.log("EDITOR EVENT", event)
-    },
-    data: {
-        time: 1552744582955,
-        blocks: [
-        ],
-        version: "2.11.10"
-    },
-}
 
-function ColumnFactory(editorConfig: EditorConfig){
-    return class extends ColumnEditor {
-        constructor(params: any){
-            super(params, editorConfig);
-        }
-    }
+const st: CSSProperties = {
+    backgroundColor: '#eee',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
 }
 
 function App() {
 
-    const [ editors, setEditors ] = useState<EditorJS[]>([]);
-    useEffect(() => {
-        console.log("EDITORS", editors);
-    }, [ editors ]);
+    const layout: Layout[] = [
+        { i: "a", x: 0, y: 0, w: 1, h: 2, static: true },
+        { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
+        { i: "c", x: 4, y: 0, w: 1, h: 2 },
+    ];
 
-    return <>
-        <button onClick={async () => {
-            console.log(await editors[0]?.save());
-        }}>Save</button>
-        <EditorProvider
-            onReady={({ editor }) => {
-                setEditors(prev => [ ...prev, editor ])
-            }}
-            config={{
-                ...editorConfig,
-                tools: {
-                    ...editorConfig.tools,
-                    column: {
-                        // @ts-ignore
-                        class: ColumnFactory(editorConfig)
-                    }
-                }
-            }}
-        />
-    </>
+    return <GridLayout
+        className='layout'
+        layout={layout}
+        cols={12}
+        rowHeight={30}
+        width={1200}
+    >
+        <div style={st} key="a">a</div>
+        <div style={st} key="b">b</div>
+        <div style={st} key="c">c</div>
+    </GridLayout>
 }
 
 export default App
