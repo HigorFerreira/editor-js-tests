@@ -98,6 +98,7 @@ export default function(
         </div>
         <div style={{
             position: 'relative',
+            margin: '22px 0',
             width: '100%',
             height,
         }}>
