@@ -1,5 +1,6 @@
 "use client";
 import React, { ChangeEvent, PropsWithChildren, useEffect, useRef, useState } from "react";
+import ChartClass from "@/chart"
 
 import perspective from "@finos/perspective";
 import "@finos/perspective-viewer";
@@ -12,9 +13,16 @@ import { HTMLPerspectiveViewerElement } from "@finos/perspective-viewer/dist/esm
 
 import { ClipLoader } from 'react-spinners'
 
-export default function(){
+export default function(
+    {
+        context
+    }: PropsWithChildren<{
+        context: ChartClass
+    }>
+){
     const perspectiveRef = useRef<HTMLPerspectiveViewerElement>(null);
     const [ loading, setLoading ] = useState(true);
+    const [ height, setHeight ] = useState<number>(context.widgetHeight);
 
     useEffect(() => {
         setTimeout(() => {
@@ -64,7 +72,17 @@ export default function(){
         //     };
         // };
         // loadData();
+
+        context.setters.setHeightComponent = setHeight;
+
     }, []);
+
+    useEffect(() => {
+        if(context.setters.setHeightSettings){
+            context.setters.setHeightSettings(height);
+            context.widgetHeight = height;
+        }
+    }, [ height ]);
 
     return <>
         <div style={{
@@ -74,20 +92,24 @@ export default function(){
             justifyContent: 'center',
             alignItems: 'center',
             visibility: loading ? 'visible' : 'hidden',
+            // height,
         }}>
             <ClipLoader color="#01cdfe" />
         </div>
-        <div style={{ visibility: loading ? 'hidden' : 'visible' }}>
-            <perspective-viewer
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                }}
-                ref={perspectiveRef}
-            />
+        <div style={{
+            position: 'relative',
+            width: '100%',
+            height,
+        }}>
+            <div style={{ visibility: loading ? 'hidden' : 'visible' }}>
+                <perspective-viewer
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                    }}
+                    ref={perspectiveRef}
+                />
+            </div>
         </div>
     </>
 }
