@@ -36,7 +36,7 @@ export default function(
             <label htmlFor="">Altura:</label>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 {/* @ts-ignore */}
-                <input type="range" min={90} max={520} step={0.01} value={ height } onChange={ evt => setHeight(parseInt(evt.target.value)) } />
+                <input type="range" min={90} max={520} value={ height } onChange={ evt => setHeight(parseInt(evt.target.value)) } />
                 <span>{ height }px</span>
             </div>
         </div>

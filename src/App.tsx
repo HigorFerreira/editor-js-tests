@@ -6,7 +6,7 @@ import EditorProvider from '@/components/EditorJS/EditorProvider'
 // import { SizeMe } from "react-sizeme"
 import { useResizeDetector } from "react-resize-detector"
 import config from "@/editorJsConfig"
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 const GridWidget = styled("div")(() => {
     return {
@@ -24,7 +24,7 @@ const GridWidgetChild = styled("div")(() => {
         // justifyContent: 'center',
         // alignItems: 'center',
         padding: 15,
-        // overflow: 'auto',
+        overflow: 'visible',
     }
 });
 
@@ -54,6 +54,8 @@ function App() {
     //     { i: "c", x: 4, y: 0, w: 1, h: 2 },
     // ];
 
+    const gridRef = useRef(null);
+
     const [ isLayoutable, setLayoutable ] = useState<boolean>(true);
 
     const { width, height, ref } = useResizeDetector();
@@ -66,8 +68,14 @@ function App() {
         { i: "e", x: 12, y: 0, w: 3, h: 4,minW: 3, minH: 3 },
     ];
 
+    useEffect(() => {
+        if(gridRef.current){
+            console.log("REFERENCE:", gridRef.current);
+        }
+    }, []);
+
     return <ContainerAll>
-        <div ref={ref} style={{ overflow: 'auto' }}>
+        <div ref={ref} style={{ overflowX: 'hidden', overflowY: 'auto',  }}>
             <GridLayout
                 className='layout'
                 layout={layout}
@@ -78,6 +86,7 @@ function App() {
                 compactType={""}
                 isDraggable={isLayoutable}
                 isResizable={isLayoutable}
+                ref={gridRef}
             >
                 {
                     layout.map((e, i) => {
