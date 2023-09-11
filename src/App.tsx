@@ -117,15 +117,6 @@ function App() {
         }
     });
     // #endregion
-
-    return <>
-        <EditorContent
-            className=" p-4 m-2 rounded text-zinc-100 bg-zinc-900 prose prose-invert max-w-full min-h-screen"
-            editor={editor}
-        />
-        <FloatingMenu editor={editor as Editor | null} />
-        <BubbleMenu editor={editor as Editor | null} />
-    </>
     
     // #region
     return <ContainerAll>
@@ -149,6 +140,14 @@ function App() {
                                 {/* <EditorProvider
                                     config={config}
                                 /> */}
+                                <div>
+                                    <EditorContent
+                                        className=" p-4 m-2 rounded text-zinc-100 bg-zinc-900 prose prose-invert max-w-full min-h-screen"
+                                        editor={editor}
+                                    />
+                                    <FloatingMenu editor={editor as Editor | null} />
+                                    <BubbleMenu editor={editor as Editor | null} />
+                                </div>
                             </GridWidgetChild>
                         </GridWidget>
                     })
