@@ -4,15 +4,25 @@ import { styled } from '@mui/material/styles'
 import GridLayout, { type Layout } from 'react-grid-layout'
 import { useResizeDetector } from "react-resize-detector"
 import { useState, useRef, useEffect } from 'react'
-import { useEditor, EditorContent, FloatingMenu, BubbleMenu, type Editor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import {
+    useEditor,
+    EditorContent,
+    // FloatingMenu,
+    // BubbleMenu,
+    type Editor,
+} from '@tiptap/react'
 
-// define your extension array
-const extensions = [
-    StarterKit,
-]
-  
-const content = '<p>Hello World!</p>'
+// tiptap extensions
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
+import StarterKit from "@tiptap/starter-kit"
+import Placeholder from "@tiptap/extension-placeholder"
+
+import FloatingMenu from '@/components/TipTap/FloatingMenu'
+import BubbleMenu from '@/components/TipTap/BubbleMenu'
+// import { MantineExtension } from '@/components/TipTap/MantineTable'
 
 // #region
 const GridWidget = styled("div")(() => {
@@ -78,7 +88,44 @@ function App() {
             console.log("REFERENCE:", gridRef.current);
         }
     }, []);
+
     // #endregion
+    // #region
+
+    const editor = useEditor({
+        extensions: [
+            StarterKit,
+            Table.configure({
+                HTMLAttributes: {
+                    class: 'table-fixed',
+                },
+            }),
+            TableCell,
+            TableHeader,
+            TableRow,
+            // MantineExtension,
+            Placeholder.configure({
+                includeChildren: true,
+                showOnlyCurrent: false,
+
+            }),
+        ],
+        editorProps: {
+            attributes: {
+                class: 'outline-none'
+            }
+        }
+    });
+    // #endregion
+
+    return <>
+        <EditorContent
+            className=" p-4 m-2 rounded text-zinc-100 bg-zinc-900 prose prose-invert max-w-full min-h-screen"
+            editor={editor}
+        />
+        <FloatingMenu editor={editor as Editor | null} />
+        <BubbleMenu editor={editor as Editor | null} />
+    </>
     
     // #region
     return <ContainerAll>
