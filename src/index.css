@@ -14,6 +14,10 @@ body{
 .ProseMirror h1, .ProseMirror h2, .ProseMirror h3, .ProseMirror h4, .ProseMirror h5, .ProseMirror h6 {
   line-height: 1.1;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .ProseMirror code {
   background-color: rgba(97, 97, 97, 0.1);
   color: #616161;

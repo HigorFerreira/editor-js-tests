@@ -2,10 +2,7 @@
 import List from '@editorjs/list'
 import { styled } from '@mui/material/styles'
 import GridLayout, { type Layout } from 'react-grid-layout'
-// import EditorProvider from '@/components/EditorJS/EditorProvider'
-// import { SizeMe } from "react-sizeme"
 import { useResizeDetector } from "react-resize-detector"
-// import config from "@/editorJsConfig"
 import { useState, useRef, useEffect } from 'react'
 import { useEditor, EditorContent, FloatingMenu, BubbleMenu, type Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -62,15 +59,9 @@ const ContainerAll = styled("div")(() => {
 function App() {
 
     // #region
-    // const layout: Layout[] = [
-    //     { i: "a", x: 0, y: 0, w: 1, h: 2, static: true },
-    //     { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
-    //     { i: "c", x: 4, y: 0, w: 1, h: 2 },
-    // ];
-
     const gridRef = useRef(null);
 
-    const [ isLayoutable, setLayoutable ] = useState<boolean>(true);
+    const [ isLayoutable, setLayoutable ] = useState<boolean>(false);
 
     const { width, height, ref } = useResizeDetector();
 
@@ -88,27 +79,8 @@ function App() {
         }
     }, []);
     // #endregion
-
-    const editor = useEditor({
-        extensions,
-        content,
-    });
-
-    return <>
-        <EditorContent editor={editor} />
-        <FloatingMenu editor={editor as Editor | undefined}>
-            Floating menu
-        </FloatingMenu>
-        <BubbleMenu editor={editor as Editor | undefined}>
-            Bubble menu
-        </BubbleMenu>
-
-    </>
     
-    
-
     // #region
-    return <></>
     return <ContainerAll>
         <div ref={ref} style={{ overflowX: 'hidden', overflowY: 'auto',  }}>
             <GridLayout
