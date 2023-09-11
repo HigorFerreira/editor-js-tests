@@ -5,9 +5,9 @@ import GridLayout, { type Layout } from 'react-grid-layout'
 // import EditorProvider from '@/components/EditorJS/EditorProvider'
 // import { SizeMe } from "react-sizeme"
 import { useResizeDetector } from "react-resize-detector"
-import config from "@/editorJsConfig"
+// import config from "@/editorJsConfig"
 import { useState, useRef, useEffect } from 'react'
-import { EditorProvider, FloatingMenu, BubbleMenu } from '@tiptap/react'
+import { useEditor, EditorContent, FloatingMenu, BubbleMenu, type Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
 // define your extension array
@@ -89,13 +89,26 @@ function App() {
     }, []);
     // #endregion
 
+    const editor = useEditor({
+        extensions,
+        content,
+    });
 
+    return <>
+        <EditorContent editor={editor} />
+        <FloatingMenu editor={editor as Editor | undefined}>
+            Floating menu
+        </FloatingMenu>
+        <BubbleMenu editor={editor as Editor | undefined}>
+            Bubble menu
+        </BubbleMenu>
 
-    return <EditorProvider extensions={extensions} content={content}>
-        <FloatingMenu>This is the floating menu</FloatingMenu>
-        <BubbleMenu>The is the bubble menu</BubbleMenu>
-    </EditorProvider>
+    </>
+    
+    
 
+    // #region
+    return <></>
     return <ContainerAll>
         <div ref={ref} style={{ overflowX: 'hidden', overflowY: 'auto',  }}>
             <GridLayout
@@ -128,6 +141,7 @@ function App() {
             <label htmlFor="layout-toggle">Layout</label>
         </div>
     </ContainerAll>
+    // #endregion
 }
 
 export default App
