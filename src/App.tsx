@@ -2,12 +2,22 @@
 import List from '@editorjs/list'
 import { styled } from '@mui/material/styles'
 import GridLayout, { type Layout } from 'react-grid-layout'
-import EditorProvider from '@/components/EditorJS/EditorProvider'
+// import EditorProvider from '@/components/EditorJS/EditorProvider'
 // import { SizeMe } from "react-sizeme"
 import { useResizeDetector } from "react-resize-detector"
 import config from "@/editorJsConfig"
 import { useState, useRef, useEffect } from 'react'
+import { EditorProvider, FloatingMenu, BubbleMenu } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 
+// define your extension array
+const extensions = [
+    StarterKit,
+]
+  
+const content = '<p>Hello World!</p>'
+
+// #region
 const GridWidget = styled("div")(() => {
     return {
         position: 'relative',
@@ -45,9 +55,13 @@ const ContainerAll = styled("div")(() => {
         },
     }
 });
+// #endregion
+
+
 
 function App() {
 
+    // #region
     // const layout: Layout[] = [
     //     { i: "a", x: 0, y: 0, w: 1, h: 2, static: true },
     //     { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
@@ -73,6 +87,14 @@ function App() {
             console.log("REFERENCE:", gridRef.current);
         }
     }, []);
+    // #endregion
+
+
+
+    return <EditorProvider extensions={extensions} content={content}>
+        <FloatingMenu>This is the floating menu</FloatingMenu>
+        <BubbleMenu>The is the bubble menu</BubbleMenu>
+    </EditorProvider>
 
     return <ContainerAll>
         <div ref={ref} style={{ overflowX: 'hidden', overflowY: 'auto',  }}>
@@ -92,9 +114,9 @@ function App() {
                     layout.map((e, i) => {
                         return <GridWidget key={e.i}>
                             <GridWidgetChild>
-                                <EditorProvider
+                                {/* <EditorProvider
                                     config={config}
-                                />
+                                /> */}
                             </GridWidgetChild>
                         </GridWidget>
                     })
